@@ -30,9 +30,9 @@ class Environment:
     def __init__(self):
         self.length = 20
         self.height = 10
-        self.start_state = [0 9]
-        self.terminal_state = [9 9]
-        self.cliff_state = [ [1 9], [2 9] , [3 9] , [4 9] , [5 9] , [6 9] , [7 9] , [8 9] ]
+        self.start_state = [0, 9]
+        self.terminal_state = [9, 9]
+        self.cliff_state = [ [1, 9], [2, 9] , [3, 9] , [4, 9] , [5, 9] , [6, 9] , [7, 9] , [8, 9] ]
         self.q_table = np.empty([self.length, self.height, 4])
         self.actionSet = ['l', 'r', 'u', 'd']
 
@@ -58,7 +58,7 @@ class Environment:
                     print('S')
                 elif [i,j] == self.terminal_state:
                     print('T')
-                else
+                else:
                     print('.')
             
             print('\n')
