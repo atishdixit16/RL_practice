@@ -1,8 +1,8 @@
 import numpy as np
 
 class Agent:
-    def __init__(self, x, y):
-        self.state = [x y]
+    def __init__(self, state):
+        self.state = state
 
     def take_action(self, env, a):
         if a == 'l':
@@ -13,18 +13,17 @@ class Agent:
             self.state[1] += 1
         elif a=='d':
             self.state[1] -= 1
-        else
+        else:
             return 0
         
-        if this.state == env.terminal_state
+        if this.state == env.terminal_state:
             reward = 0
-        elif env.cliff_state.count(this.state)
+        elif env.cliff_state.count(this.state):
             reward = -100
-        else
+        else:
             reward = -1
 
         return this.state, reward
-
 
 
 class Environment:
@@ -65,3 +64,21 @@ class Environment:
             print('\n')
 
 
+if __name__ == '__main__':
+    env = Environment()
+    gamma = 0.9
+    epsilon = 0.1
+    alpha = 0.8
+    for episodes in range(100):
+        statesSet = []
+        agent = Agent(env.start_state)
+        while True:
+            nextAction = env.policy(agent.state, gamma, epsilon)
+            nextState, reward = agent.take_action(env, nextAction)
+            bestAction = env.greedy_action(nextState)
+            env.q_table[agent.state[0], agent.state[1], ] += alpha * (reward + gamma*env.q_table [ nextState[0], nextState[1], env.actionSet.index(bestAction) ] - env.q_table [ agent.state[0], agent.state[1], env.actionSet.index(nextAction) ])
+            agent.state = nextState
+            statesSet.append(nextState)
+            if nextState == env.terminal_state or env.cliff_state.count(nextState):
+                break
+        env.show(statesSet)
