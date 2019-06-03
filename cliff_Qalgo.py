@@ -33,7 +33,7 @@ class Environment:
         self.start_state = [0, 4]
         self.terminal_state = [9, 4]
         self.cliff_state = [ [1, 4], [2, 4] , [3, 4] , [4, 4] , [5, 4] , [6, 4] , [7, 4] , [8, 4] ]
-        self.q_table = np.empty([self.length, self.height, 4])
+        self.q_table = np.ones([self.length, self.height, 4])
         self.actionSet = ['l', 'r', 'u', 'd']
 
     def policy(self, state, gamma, epsilon ):
@@ -50,14 +50,14 @@ class Environment:
     def show(self, statesSet):
         for j in range(self.height):
             for i in range(self.length):
-                if statesSet.count([i,j]):
-                    print('*', end="")
-                elif self.cliff_state.count([i,j]):
+                if self.cliff_state.count([i,j]):
                     print('X', end="")
                 elif [i,j] == self.start_state:
                     print('S', end="")
                 elif [i,j] == self.terminal_state:
                     print('T', end="")
+                elif statesSet.count([i,j]):
+                    print('*', end="")
                 else:
                     print('.', end="")
             
@@ -67,19 +67,22 @@ class Environment:
 if __name__ == '__main__':
     env = Environment()
     gamma = 0.9
-    epsilon = 0.4
+    epsilon = 0.2
     alpha = 0.8
-    for episodes in range(100):
+    for episodes in range(1000):
         statesSet = []
         agent = Agent(env.start_state)
         while True:
-            print(episodes)
             nextAction = env.policy(agent.state, gamma, epsilon)
             nextState, reward = agent.take_action(env, nextAction)
             bestAction = env.greedy_action(nextState)
             env.q_table[agent.state[0], agent.state[1], ] += alpha * (reward + gamma*env.q_table [ nextState[0], nextState[1], env.actionSet.index(bestAction) ] - env.q_table [ agent.state[0], agent.state[1], env.actionSet.index(nextAction) ])
+            if env.cliff_state.count(nextState):
+                nextState = env.start_state
+            print(nextState)
+            print(reward)
             agent.state = nextState
             statesSet.append(nextState)
-            if nextState == env.terminal_state or env.cliff_state.count(nextState):
+            if nextState == env.terminal_state or :
                 break
         env.show(statesSet)
