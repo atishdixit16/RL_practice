@@ -6,13 +6,13 @@ class Agent:
 
     def take_action(self, env, a):
         if a == 'l':
-            self.state[0] -= 1
+            self.state[0] = np.max( [ self.state[0]-1 , 0] )
         elif a=='r':
-            self.state[0] += 1
+            self.state[0] = np.min( [ self.state[0]+1 , env.length-1] )
         elif a=='u':
-            self.state[1] += 1
+            self.state[1] = np.min( [ self.state[1]+1 , env.height-1] )
         elif a=='d':
-            self.state[1] -= 1
+            self.state[1] = np.max( [ self.state[1]-1 , 0] )
         else:
             return 0
         
@@ -28,11 +28,11 @@ class Agent:
 
 class Environment:
     def __init__(self):
-        self.length = 20
-        self.height = 10
-        self.start_state = [0, 9]
-        self.terminal_state = [9, 9]
-        self.cliff_state = [ [1, 9], [2, 9] , [3, 9] , [4, 9] , [5, 9] , [6, 9] , [7, 9] , [8, 9] ]
+        self.length = 10
+        self.height = 5
+        self.start_state = [0, 4]
+        self.terminal_state = [9, 4]
+        self.cliff_state = [ [1, 4], [2, 4] , [3, 4] , [4, 4] , [5, 4] , [6, 4] , [7, 4] , [8, 4] ]
         self.q_table = np.empty([self.length, self.height, 4])
         self.actionSet = ['l', 'r', 'u', 'd']
 
@@ -51,15 +51,15 @@ class Environment:
         for j in range(self.height):
             for i in range(self.length):
                 if statesSet.count([i,j]):
-                    print('*')
+                    print('*', end="")
                 elif self.cliff_state.count([i,j]):
-                    print('X')
+                    print('X', end="")
                 elif [i,j] == self.start_state:
-                    print('S')
+                    print('S', end="")
                 elif [i,j] == self.terminal_state:
-                    print('T')
+                    print('T', end="")
                 else:
-                    print('.')
+                    print('.', end="")
             
             print('\n')
 
@@ -67,12 +67,13 @@ class Environment:
 if __name__ == '__main__':
     env = Environment()
     gamma = 0.9
-    epsilon = 0.1
+    epsilon = 0.4
     alpha = 0.8
     for episodes in range(100):
         statesSet = []
         agent = Agent(env.start_state)
         while True:
+            print(episodes)
             nextAction = env.policy(agent.state, gamma, epsilon)
             nextState, reward = agent.take_action(env, nextAction)
             bestAction = env.greedy_action(nextState)
