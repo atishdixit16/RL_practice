@@ -16,14 +16,14 @@ class Agent:
         else:
             return 0
         
-        if this.state == env.terminal_state:
+        if self.state == env.terminal_state:
             reward = 0
-        elif env.cliff_state.count(this.state):
+        elif env.cliff_state.count(self.state):
             reward = -100
         else:
             reward = -1
 
-        return this.state, reward
+        return self.state, reward
 
 
 class Environment:
@@ -41,15 +41,15 @@ class Environment:
         if e < epsilon:
             a = self.actionSet[np.random.randint(4)]
         else:
-            a = self.actionSet[np.argmax(this.q_table[state[0], state[1]])]
+            a = self.actionSet[np.argmax(self.q_table[state[0], state[1]])]
         return a
 
     def greedy_action(self, state):
-        return self.actionSet[np.argmax(this.q_table[state[0], state[1]])]
+        return self.actionSet[np.argmax(self.q_table[state[0], state[1]])]
     
     def show(self, statesSet):
-        for j in self.height:
-            for i in length:
+        for j in range(self.height):
+            for i in range(self.length):
                 if statesSet.count([i,j]):
                     print('*')
                 elif self.cliff_state.count([i,j]):
