@@ -9,12 +9,14 @@ if __name__ == '__main__':
     for episodes in range(100):
         statesSet = [[0,4]]
         agent = Agent([0,4])
-        currentAction = env.policy(agent.state, gamma, epsilon )
+        # currentAction = env.policy(agent.state, gamma, epsilon )
+        currentAction = env.policy(agent.state, gamma, 1/(1+2*episodes) )
         print(episodes)
         while True:
             currentState = list(agent.state)
             reward = agent.take_action(env, currentAction)
-            NextAction = env.policy(agent.state, gamma, epsilon )
+            # NextAction = env.policy(agent.state, gamma, epsilon )
+            NextAction = env.policy(agent.state, gamma, 1/(1+2*episodes) )
             env.q_table[currentState[0], currentState[1], env.actionSet.index(currentAction) ] += alpha * (reward + gamma*env.q_table [ agent.state[0], agent.state[1], env.actionSet.index(NextAction) ] - env.q_table [ currentState[0], currentState[1], env.actionSet.index(currentAction) ])
             statesSet.append(list(agent.state))
             currentAction = NextAction
