@@ -9,14 +9,15 @@ if __name__ == '__main__':
     for episodes in range(100):
         statesSet = [[0,4]]
         agent = Agent([0,4])
+        currentAction = env.policy(agent.state, gamma, epsilon )
         print(episodes)
         while True:
             currentState = list(agent.state)
-            currentAction = env.policy(agent.state, gamma, epsilon )
             reward = agent.take_action(env, currentAction)
-            bestAction = env.greedy_action(agent.state)
-            env.q_table[currentState[0], currentState[1], env.actionSet.index(currentAction) ] += alpha * (reward + gamma*env.q_table [ agent.state[0], agent.state[1], env.actionSet.index(bestAction) ] - env.q_table [ currentState[0], currentState[1], env.actionSet.index(currentAction) ])
+            NextAction = env.policy(agent.state, gamma, epsilon )
+            env.q_table[currentState[0], currentState[1], env.actionSet.index(currentAction) ] += alpha * (reward + gamma*env.q_table [ agent.state[0], agent.state[1], env.actionSet.index(NextAction) ] - env.q_table [ currentState[0], currentState[1], env.actionSet.index(currentAction) ])
             statesSet.append(list(agent.state))
+            currentAction = NextAction
             if agent.state == env.terminal_state or env.cliff_state.count(agent.state):
                 break
         print(statesSet)
