@@ -69,20 +69,17 @@ if __name__ == '__main__':
     gamma = 0.9
     epsilon = 0.2
     alpha = 0.8
-    for episodes in range(1000):
-        statesSet = []
-        agent = Agent(env.start_state)
+    for episodes in range(100):
+        statesSet = [[0,4]]
+        agent = Agent([0,4])
+        print(episodes)
         while True:
             nextAction = env.policy(agent.state, gamma, epsilon)
-            nextState, reward = agent.take_action(env, nextAction)
-            bestAction = env.greedy_action(nextState)
-            env.q_table[agent.state[0], agent.state[1], ] += alpha * (reward + gamma*env.q_table [ nextState[0], nextState[1], env.actionSet.index(bestAction) ] - env.q_table [ agent.state[0], agent.state[1], env.actionSet.index(nextAction) ])
-            if env.cliff_state.count(nextState):
-                nextState = env.start_state
-            print(nextState)
-            print(reward)
-            agent.state = nextState
-            statesSet.append(nextState)
-            if nextState == env.terminal_state or :
+            agent.state , reward = agent.take_action(env, nextAction)
+            bestAction = env.greedy_action(agent.state)
+            env.q_table[agent.state[0], agent.state[1], env.actionSet.index(nextAction) ] += alpha * (reward + gamma*env.q_table [ agent.state[0], agent.state[1], env.actionSet.index(bestAction) ] - env.q_table [ agent.state[0], agent.state[1], env.actionSet.index(nextAction) ])
+            statesSet.append(list(agent.state))
+            if agent.state == env.terminal_state or env.cliff_state.count(agent.state):
                 break
+        print(statesSet)
         env.show(statesSet)
