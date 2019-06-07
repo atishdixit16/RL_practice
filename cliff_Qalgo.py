@@ -16,7 +16,7 @@ if __name__ == '__main__':
         print(episodes)
         while True:
             currentState = list(agent.state)
-            currentAction = env.policy(agent.state, gamma, epsilon )
+            currentAction = env.policy(agent.state, epsilon )
             reward = agent.take_action(env, currentAction)
             r_Q_e.append(reward)
             bestAction = env.greedy_action(agent.state)

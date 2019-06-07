@@ -36,7 +36,7 @@ class Environment:
         self.q_table = np.ones([self.length, self.height, 4])
         self.actionSet = ['l', 'r', 'u', 'd']
 
-    def policy(self, state, gamma, epsilon ):
+    def policy(self, state, epsilon ):
         e = np.random.rand()
         if e < epsilon:
             a = self.actionSet[np.random.randint(4)]
