@@ -1,10 +1,11 @@
 import numpy as np
 
 class Agent:
-    def __init__(self, state):
+    def __init__(self, state, action):
         self.state = state
+        self.action = action
 
-    def take_action(self, env, a):
+    def step(self, env, a):
         if a == 'l':
             self.state[0] = np.max( [ self.state[0]-1 , 0] )
         elif a=='r':
@@ -36,16 +37,16 @@ class Environment:
         self.q_table = np.ones([self.length, self.height, 4])
         self.actionSet = ['l', 'r', 'u', 'd']
 
-    def policy(self, state, epsilon ):
+    def policy(self, agent, epsilon ):
         e = np.random.rand()
         if e < epsilon:
             a = self.actionSet[np.random.randint(4)]
         else:
-            a = self.actionSet[np.argmax(self.q_table[state[0], state[1]])]
-        return a
+            a = self.actionSet[np.argmax(self.q_table[agent.state[0], agent.state[1]])]
+        agent.action = a
 
-    def greedy_action(self, state):
-        return self.actionSet[np.argmax(self.q_table[state[0], state[1]])]
+    def greedy_policy(self, agent):
+        agent.action = self.actionSet[np.argmax(self.q_table[agent.state[0], agent.state[1]])]
     
     def show(self, statesSet):
         for j in range(self.height):
@@ -62,4 +63,7 @@ class Environment:
                     print('.', end="")
             
             print('\n')
+
+    def done(self, agent):
+        return agent.state == self.terminal_state or self.cliff_state.count(agent.state)
 
