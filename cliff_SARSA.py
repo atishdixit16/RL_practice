@@ -33,6 +33,6 @@ if __name__ == '__main__':
                 break
             
         # data record/survailence
-        r_SARSA.append(np.mean(r_SARSA_e))
+        r_SARSA.append(np.sum(r_SARSA_e))
         print(statesSet)
         env.show(statesSet)

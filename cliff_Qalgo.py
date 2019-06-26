@@ -33,6 +33,6 @@ if __name__ == '__main__':
                 break
             
         # data record/survailence
-        r_Q.append(np.mean(r_Q_e))
+        r_Q.append(np.sum(r_Q_e))
         print(statesSet)
         env.show(statesSet)
