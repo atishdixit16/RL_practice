@@ -1,5 +1,5 @@
 import numpy as np
-from agentEnv import Environment, Agent
+from cliff_agentEnv import Environment, Agent
 
 if __name__ == '__main__':
     env = Environment()
