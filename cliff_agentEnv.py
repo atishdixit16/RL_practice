@@ -35,9 +35,10 @@ class Environment:
         self.terminal_state = [9, 4]
         self.cliff_state = [ [1, 4], [2, 4] , [3, 4] , [4, 4] , [5, 4] , [6, 4] , [7, 4] , [8, 4] ]
         self.q_table = np.ones([self.length, self.height, 4])
+        self.e_table = np.ones([self.length, self.height, 4])
         self.actionSet = ['l', 'r', 'u', 'd']
 
-    def policy(self, agent, epsilon ):
+    def eps_policy(self, agent, epsilon ):
         e = np.random.rand()
         if e < epsilon:
             a = self.actionSet[np.random.randint(4)]
@@ -66,4 +67,3 @@ class Environment:
 
     def done(self, agent):
         return agent.state == self.terminal_state or self.cliff_state.count(agent.state)
-
