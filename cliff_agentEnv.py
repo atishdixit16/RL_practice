@@ -1,4 +1,5 @@
 import numpy as np
+import matplotlib.pyplot as plt
 
 class Agent:
     def __init__(self, state, action):
@@ -67,3 +68,30 @@ class Environment:
 
     def done(self, agent):
         return agent.state == self.terminal_state or self.cliff_state.count(agent.state)
+
+    def show_q(self):
+        X = np.arange(self.length)
+        Y = np.arange(self.height)
+        U,V = np.meshgrid(X, Y)
+        stensil = [1,-1,-1,1] #corresponding to  [l r u d]
+        for i in Y:
+            for j in X:
+                if self.q_table[i, j, 0] == self.q_table[i,j,1] and \
+                     self.q_table[i, j, 1] == self.q_table[i,j,2] and \
+                          self.q_table[i, j, 2] == self.q_table[i,j,3]:
+                    U[i,j] = 0
+                    V[i,j] = 0
+                    break
+                max_index = np.argmax(self.q_table[i, j])
+                if max_index > 1:
+                    U[i,j] = 0
+                    V[i,j] = stensil[max_index]
+                else:
+                    U[i,j] = stensil[max_index]
+                    V[i,j] = 0
+        plt.figure()
+        plt.quiver(X, Y, U, V)
+        plt.show()
+
+
+
