@@ -6,18 +6,16 @@ if __name__ == '__main__':
     epsilon = 0.3
     alpha = 0.8
 
-    env.show_q()
-
-    for episodes in range(5000):
+    for episodes in range(1200):
         agent = Agent([0,4], 'd')
         
         # data record/survailence
         statesSet = [[0,4]]
         actionsSet = ['d']
         print('Episode No.:', episodes+1)
-        reward = 0
+        # reward = 0
         while True:
-            reward += agent.step(env, agent.action[0])  # updates agent's state
+            reward = agent.step(env, agent.action[0])  # updates agent's state
             env.eps_policy(agent, epsilon ) # or env.eps_policy(agent, 1/(1+2*episodes) ) #updates agent's action
 
             # data record/survailence
