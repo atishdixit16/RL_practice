@@ -72,26 +72,27 @@ class Environment:
     def show_q(self):
         X = np.arange(self.length)
         Y = np.arange(self.height)
-        U,V = np.meshgrid(X, Y)
-        stensil = [1,-1,-1,1] #corresponding to  [l r u d]
-        for i in Y:
-            for j in X:
+        V = np.zeros([self.length, self.height])
+        U = np.zeros([self.length, self.height])
+        min_q = np.min(self.q_table)
+        # stensil = np.array([1.,-1.,-1.,1.]) #corresponding to  [l r u d]
+        for i in X:
+            for j in Y:
                 if self.q_table[i, j, 0] == self.q_table[i,j,1] and \
                      self.q_table[i, j, 1] == self.q_table[i,j,2] and \
                           self.q_table[i, j, 2] == self.q_table[i,j,3]:
-                    U[i,j] = 0
-                    V[i,j] = 0
-                    break
-                max_index = np.argmax(self.q_table[i, j])
-                if max_index > 1:
-                    U[i,j] = 0
-                    V[i,j] = stensil[max_index]
+                    # print(i,j)
+                    U[i,j] = 0.0
+                    V[i,j] = 0.0
                 else:
-                    U[i,j] = stensil[max_index]
-                    V[i,j] = 0
+                    max_index = np.argmax(self.q_table[i, j])
+                    # print(max_index)
+                    if max_index > 1:
+                        U[i,j] = 0.0
+                        V[i,j] = self.q_table[i, j, max_index] - min_q #stensil[max_index]
+                    else:
+                        U[i,j] = self.q_table[i, j, max_index] - min_q #stensil[max_index]
+                        V[i,j] = 0.0
         plt.figure()
-        plt.quiver(X, Y, U, V)
+        plt.quiver(X, Y, U.transpose(), V.transpose())
         plt.show()
-
-
-

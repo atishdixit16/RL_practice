@@ -6,6 +6,8 @@ if __name__ == '__main__':
     epsilon = 0.3
     alpha = 0.8
 
+    env.show_q()
+
     for episodes in range(5000):
         agent = Agent([0,4], 'd')
         
