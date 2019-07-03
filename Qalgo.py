@@ -38,3 +38,5 @@ if __name__ == '__main__':
         r_Q.append(np.sum(r_Q_e))
         print(statesSet)
         env.show(statesSet)
+
+env.show_q()

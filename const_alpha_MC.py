@@ -45,3 +45,5 @@ if __name__ == '__main__':
             - env.q_table[statesSet[i][0], statesSet[i][1], env.actionSet.index(actionsSet[i])])
 
 # env.q_table
+
+env.show_q()

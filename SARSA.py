@@ -4,7 +4,7 @@ from cliff_agentEnv import Environment, Agent
 if __name__ == '__main__':
     env = Environment()
     gamma = 0.9
-    epsilon = 0.1
+    epsilon = 0.05
     alpha = 0.8
 
     r_SARSA = []
@@ -38,3 +38,5 @@ if __name__ == '__main__':
         r_SARSA.append(np.sum(r_SARSA_e))
         print(statesSet)
         env.show(statesSet)
+
+env.show_q()
