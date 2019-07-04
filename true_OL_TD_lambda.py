@@ -6,11 +6,11 @@ if __name__ == '__main__':
     gamma = 0.9
     epsilon = 0.1
     alpha = 0.8
-    lamda = 0.6
+    lamda = 0.0
 
     Q_old = 0
 
-    for episodes in range(200):
+    for episodes in range(500):
         agent = Agent([0,4], 'd')
         
         # data record/survailence
